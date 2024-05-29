@@ -58,6 +58,16 @@ Response Body:
 }
 ```
 
+Status Code 400:
+
+Response Body:
+
+```json
+{
+  "message": "id should be a number"
+}
+```
+
 Status Code 404:
 
 Response Body:
