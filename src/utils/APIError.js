@@ -1,5 +1,5 @@
 class APIError extends Error {
-  constructor(status = 500, message = 'Internal Server error') {
+  constructor(status = 500, message = "Internal Server error") {
     super(message);
     this.status = status;
   }
