@@ -1,0 +1,59 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+}
+
+model Job {
+  id               Int                @id @default(autoincrement())
+  title            String
+  desc             String
+  business_sector  String
+  logo             String?
+  city             String
+  leaderboard      Leaderboard        @relation(fields: [leaderboardId], references: [id])
+  leaderboardId    Int                @unique
+  Match_Percentage Match_Percentage[]
+
+  @@map("jobs")
+}
+
+model Leaderboard {
+  id               Int         @id @default(autoincrement())
+  candidate        Candidate[]
+  match_percentage Int
+  jobId            Int         @unique
+  candidateId      Int
+  Job              Job?
+}
+
+model Match_Percentage {
+  id          Int       @id @default(autoincrement())
+  job         Job       @relation(fields: [jobId], references: [id])
+  candidate   Candidate @relation(fields: [candidateId], references: [id])
+  percentage  Int
+  jobId       Int
+  candidateId Int
+}
+
+model Candidate {
+  id               Int                @id @default(autoincrement())
+  name             String
+  title            String
+  cv_name          String
+  cv_summarize     String
+  match_percentage Match_Percentage[]
+  Leaderboard      Leaderboard?       @relation(fields: [leaderboardId], references: [id])
+  leaderboardId    Int?
+
+  @@map("candidates")
+}
