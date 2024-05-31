@@ -14,43 +14,51 @@ datasource db {
 }
 
 model Job {
-  id               Int                @id @default(autoincrement())
-  title            String
-  desc             String
-  business_sector  String
-  logo             String?
-  city             String
-  leaderboard      Leaderboard?       @relation(fields: [leaderboardId], references: [id])
-  leaderboardId    Int?               @unique
-  Match_Percentage Match_Percentage[]
+  id              Int          @id @default(autoincrement())
+  title           String
+  desc            String
+  business_sector String
+  logo            String?
+  city            String
+  leaderboard     Leaderboard? @relation(fields: [leaderboardId], references: [id])
+  leaderboardId   Int?         @unique
 
   @@map("jobs")
 }
 
 model Leaderboard {
-  id         Int         @id @default(autoincrement())
-  candidates Candidate[]
-  jobId      Int         @unique
-  Job        Job?
+  id               Int                @id @default(autoincrement())
+  candidates       Candidate[]
+  jobId            Int                @unique
+  Job              Job?
+  Match_Percentage Match_Percentage[]
+
+  @@map("leaderboards")
 }
 
 model Match_Percentage {
-  id          Int       @id @default(autoincrement())
-  job         Job       @relation(fields: [jobId], references: [id])
-  candidate   Candidate @relation(fields: [candidateId], references: [id])
-  percentage  Int
-  jobId       Int
-  candidateId Int
+  id            Int         @id @default(autoincrement())
+  leaderboard   Leaderboard @relation(fields: [leaderboardId], references: [id])
+  candidate     Candidate   @relation(fields: [candidateId], references: [id])
+  percentage    Int
+  candidateId   Int
+  leaderboardId Int
+
+  @@map("match_percentages")
 }
 
 model Candidate {
   id               Int                @id @default(autoincrement())
-  name             String
+  fullname         String
   title            String
+  email            String
+  phone            String
+  additional_link  String?
+  passphoto        String
   cv_name          String
-  cv_summarize     String
+  cv_summary       String             @db.Text
   match_percentage Match_Percentage[]
-  leaderboards9    Leaderboard[]
+  leaderboards     Leaderboard[]
 
   @@map("candidates")
 }

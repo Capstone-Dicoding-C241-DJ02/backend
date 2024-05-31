@@ -16,6 +16,7 @@ class JobRepository {
           business_sector: true,
           city: true,
         },
+        take: 10,
       });
 
       return jobs;
