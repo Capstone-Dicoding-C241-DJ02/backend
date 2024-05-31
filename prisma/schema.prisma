@@ -20,20 +20,18 @@ model Job {
   business_sector  String
   logo             String?
   city             String
-  leaderboard      Leaderboard        @relation(fields: [leaderboardId], references: [id])
-  leaderboardId    Int                @unique
+  leaderboard      Leaderboard?       @relation(fields: [leaderboardId], references: [id])
+  leaderboardId    Int?               @unique
   Match_Percentage Match_Percentage[]
 
   @@map("jobs")
 }
 
 model Leaderboard {
-  id               Int         @id @default(autoincrement())
-  candidate        Candidate[]
-  match_percentage Int
-  jobId            Int         @unique
-  candidateId      Int
-  Job              Job?
+  id         Int         @id @default(autoincrement())
+  candidates Candidate[]
+  jobId      Int         @unique
+  Job        Job?
 }
 
 model Match_Percentage {
@@ -52,8 +50,7 @@ model Candidate {
   cv_name          String
   cv_summarize     String
   match_percentage Match_Percentage[]
-  Leaderboard      Leaderboard?       @relation(fields: [leaderboardId], references: [id])
-  leaderboardId    Int?
+  leaderboards9    Leaderboard[]
 
   @@map("candidates")
 }
