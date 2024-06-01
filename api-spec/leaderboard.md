@@ -2,7 +2,7 @@
 
 ## GET
 
-Endpoint: /leaderboards/:id
+Endpoint: /jobs/:jobId/leaderboard
 
 status code: 200
 
@@ -12,6 +12,13 @@ response:
 {
   "message": "Successfully retrieved data",
   "data": {
+    "job": {
+      "id": "<ID>", //number
+      "logo": "<Logo Url>",
+      "title": "<Job Title>",
+      "city": "<Location>",
+      "business_sector": "<Business Sector>"
+    },
     "candidates": [
       {
         "id": <candidateId>,
@@ -53,12 +60,6 @@ response
 {
   "message": "Successfully get data",
   "data": {
-    "job": {
-      "id": <job_id>,
-      "title": "<job_title>",
-      "business_sector": "<bussines_sector>",
-      "city": "<city>"
-    },
     "candidate": {
       "id": <candidateId>,
       "fullname": "<candidate_fullname>",
