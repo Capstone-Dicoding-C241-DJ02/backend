@@ -1,6 +1,11 @@
+import { PrismaClient } from "@prisma/client";
 import APIError from "../utils/APIError.js";
 
 class JobRepository {
+  /**
+   *
+   * @param {PrismaClient} db
+   */
   constructor(db) {
     this.db = db;
     this.collection = "jobs";

@@ -27,38 +27,27 @@ model Job {
 }
 
 model Leaderboard {
-  id               Int                @id @default(autoincrement())
-  candidates       Candidate[]
-  jobId            Int                @unique
-  Job              Job?
-  Match_Percentage Match_Percentage[]
+  id         Int         @id @default(autoincrement())
+  candidates Candidate[]
+  jobId      Int         @unique
+  Job        Job?
 
   @@map("leaderboards")
 }
 
-model Match_Percentage {
-  id            Int         @id @default(autoincrement())
-  leaderboard   Leaderboard @relation(fields: [leaderboardId], references: [id])
-  candidate     Candidate   @relation(fields: [candidateId], references: [id])
-  percentage    Int
-  candidateId   Int
-  leaderboardId Int
-
-  @@map("match_percentages")
-}
-
 model Candidate {
-  id               Int                @id @default(autoincrement())
+  id               Int         @id @default(autoincrement())
   fullname         String
   title            String
   email            String
   phone            String
   additional_link  String?
-  passphoto        String
+  passphoto        String?
   cv_name          String
-  cv_summary       String             @db.Text
-  match_percentage Match_Percentage[]
-  leaderboards     Leaderboard[]
+  cv_summary       String      @db.Text
+  match_percentage Int
+  leaderboards     Leaderboard @relation(fields: [leaderboardId], references: [id])
+  leaderboardId    Int
 
   @@map("candidates")
 }

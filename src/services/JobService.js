@@ -1,13 +1,14 @@
 import APIError from "../utils/APIError.js";
 
 class JobService {
-  constructor(repository) {
-    this.repository = repository;
+  constructor(jobRepository, candidateRepository) {
+    this.jobRepository = jobRepository;
+    this.candidateRepository = candidateRepository;
   }
 
   async getJobs() {
     try {
-      const jobs = await this.repository.getMany();
+      const jobs = await this.jobRepository.getMany();
 
       return jobs;
     } catch (error) {
@@ -17,9 +18,23 @@ class JobService {
 
   async getJobById(id) {
     try {
-      const job = await this.repository.getById(id);
+      const job = await this.jobRepository.getById(id);
 
       return job;
+    } catch (error) {
+      throw APIError.parseError(error);
+    }
+  }
+
+  async getLeaderboard(jobId) {
+    try {
+      const { Job, candidates } =
+        await this.candidateRepository.getFromLeaderboard(jobId);
+      const data = {
+        job: Job,
+        candidates,
+      };
+      return data;
     } catch (error) {
       throw APIError.parseError(error);
     }

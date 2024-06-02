@@ -11,23 +11,68 @@ class CandidateRepository {
     this.collection = "candidates";
   }
 
-  async getFromLeaderboards(leaderboardId) {
+  async getFromLeaderboard(jobId) {
     try {
-      const candidates = await this.db.leaderboard.findUnique({
-        where: { id: leaderboardId },
+      const leaderboard = await this.db.leaderboard.findUnique({
+        where: { jobId: jobId },
         include: {
+          Job: {
+            select: {
+              id: true,
+              logo: true,
+              title: true,
+              business_sector: true,
+              city: true,
+            },
+          },
           candidates: {
             select: {
               id: true,
-              name: true,
-              profile_picture: true,
-              match_percentage: { where: { leaderboardId } },
+              fullname: true,
+              passphoto: true,
+              title: true,
             },
+            orderBy: { match_percentage: "desc" },
           },
         },
       });
 
-      return candidates;
+      if (!leaderboard) throw new APIError(404, "Data not found");
+
+      return leaderboard;
+    } catch (error) {
+      throw APIError.parseError(error);
+    }
+  }
+
+  async getDetails(candidateId) {
+    try {
+      const candidate = await this.db.candidate.findUnique({
+        where: { id: candidateId },
+      });
+
+      if (!candidate) throw new APIError(404, "Data not found");
+
+      return candidate;
+    } catch (error) {
+      throw APIError.parseError(error);
+    }
+  }
+
+  async addToLeaderboard(jobId, candidateData) {
+    try {
+      const { leaderboardId } = await this.db.job.findUnique({
+        where: { id: jobId },
+        select: { leaderboardId: true },
+      });
+
+      if (!leaderboardId) throw new APIError(404, "Data not found");
+
+      const newCandidate = await this.db.candidate.create({
+        data: { ...candidateData, leaderboardId },
+      });
+
+      return newCandidate;
     } catch (error) {
       throw APIError.parseError(error);
     }
