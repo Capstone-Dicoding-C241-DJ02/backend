@@ -6,7 +6,8 @@ const storage = multer.diskStorage({
     cb(null, "/home/sugito/project/backend/tmp");
   },
   filename: (_, file, cb) => {
-    cb(null, file.originalname);
+    const suffix = +new Date();
+    cb(null, `${suffix}_${file.originalname}`);
   },
 });
 const fileHandler = multer({

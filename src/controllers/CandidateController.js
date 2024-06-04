@@ -32,7 +32,7 @@ class CandidateController {
         passphoto_path: passphoto[0].path,
       };
 
-      await candidateService.addCandidateToLeaderboard(Number(id), data);
+      await candidateService.applyToJob(Number(id), data);
 
       res.status(201).json({
         message: "Successfully apply the job",
@@ -48,9 +48,7 @@ class CandidateController {
 
       if (isNaN(id)) throw new APIError(400, "id should be a number");
 
-      const candidate = await candidateService.getLeaderboardCandidate(
-        Number(id)
-      );
+      const candidate = await candidateService.getCandidateDetails(Number(id));
 
       res.status(200).json({
         messsage: "Successfully get data",

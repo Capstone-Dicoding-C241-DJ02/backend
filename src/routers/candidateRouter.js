@@ -3,13 +3,14 @@ import fileHandler from "../middlewares/fileHandler.js";
 import CandidateController from "../controllers/CandidateController.js";
 
 const router = Router();
+const fileFields = [
+  { name: "passphoto", maxCount: 1 },
+  { name: "cv", maxCount: 1 },
+];
 
 router.post(
   "/apply/jobs/:id",
-  fileHandler.fields([
-    { name: "passphoto", maxCount: 1 },
-    { name: "cv", maxCount: 1 },
-  ]),
+  fileHandler.fields(fileFields),
   CandidateController.addCandidate
 );
 router.get("/:id", CandidateController.getCandidateDetail);

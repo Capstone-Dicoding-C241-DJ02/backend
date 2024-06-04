@@ -14,29 +14,19 @@ datasource db {
 }
 
 model Job {
-  id              Int          @id @default(autoincrement())
+  id              Int         @id @default(autoincrement())
   title           String
-  desc            String
+  desc            String      @db.LongText
   business_sector String
   logo            String?
   city            String
-  leaderboard     Leaderboard? @relation(fields: [leaderboardId], references: [id])
-  leaderboardId   Int?         @unique
+  candidates      Candidate[]
 
   @@map("jobs")
 }
 
-model Leaderboard {
-  id         Int         @id @default(autoincrement())
-  candidates Candidate[]
-  jobId      Int         @unique
-  Job        Job?
-
-  @@map("leaderboards")
-}
-
 model Candidate {
-  id               Int         @id @default(autoincrement())
+  id               Int     @id @default(autoincrement())
   fullname         String
   title            String
   email            String
@@ -44,10 +34,10 @@ model Candidate {
   additional_link  String?
   passphoto        String?
   cv_name          String
-  cv_summary       String      @db.Text
+  cv_summary       String  @db.Text
   match_percentage Int
-  leaderboards     Leaderboard @relation(fields: [leaderboardId], references: [id])
-  leaderboardId    Int
+  Job              Job?    @relation(fields: [jobId], references: [id])
+  jobId            Int?
 
   @@map("candidates")
 }

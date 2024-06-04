@@ -19,7 +19,7 @@ class CandidateService {
     throw new APIError();
   }
 
-  async addCandidateToLeaderboard(jobId, candidateData) {
+  async applyToJob(jobId, candidateData) {
     try {
       const { cv_path, passphoto_path, ...data } = candidateData;
 
@@ -37,7 +37,7 @@ class CandidateService {
       data.cv_summary = "";
       data.title = "Engineer";
 
-      const candidate = await this.repository.addToLeaderboard(jobId, data);
+      const candidate = await this.repository.applyToJob(jobId, data);
 
       return candidate;
     } catch (error) {
@@ -45,9 +45,10 @@ class CandidateService {
     }
   }
 
-  async getLeaderboardCandidate(candidateId) {
+  async getCandidateDetails(candidateId) {
     try {
       const candidate = await this.repository.getDetails(candidateId);
+
       const [original_cv_url, passphoto] = await Promise.all([
         await StorageUtil.getSignedUrl("cv-bucket-dj02", candidate.cv_name),
         await StorageUtil.getSignedUrl(

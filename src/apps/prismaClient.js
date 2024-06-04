@@ -5,4 +5,16 @@ const prismaClient = new PrismaClient({
   log: ["error", "warn"],
 });
 
+// prismaClient.job
+//   .findMany({
+//     where: {
+//       AND: [
+//         { title: { contains: "" } },
+//         { city: { contains: "Ja" } },
+//         { business_sector: { contains: "" } },
+//       ],
+//     },
+//   })
+//   .then(console.log);
+
 export default prismaClient;

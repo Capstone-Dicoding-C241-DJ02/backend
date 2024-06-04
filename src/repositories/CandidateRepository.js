@@ -1,4 +1,3 @@
-import { PrismaClient } from "@prisma/client";
 import APIError from "../utils/APIError.js";
 
 class CandidateRepository {
@@ -9,40 +8,6 @@ class CandidateRepository {
   constructor(db) {
     this.db = db;
     this.collection = "candidates";
-  }
-
-  async getFromLeaderboard(jobId) {
-    try {
-      const leaderboard = await this.db.leaderboard.findUnique({
-        where: { jobId: jobId },
-        include: {
-          Job: {
-            select: {
-              id: true,
-              logo: true,
-              title: true,
-              business_sector: true,
-              city: true,
-            },
-          },
-          candidates: {
-            select: {
-              id: true,
-              fullname: true,
-              passphoto: true,
-              title: true,
-            },
-            orderBy: { match_percentage: "desc" },
-          },
-        },
-      });
-
-      if (!leaderboard) throw new APIError(404, "Data not found");
-
-      return leaderboard;
-    } catch (error) {
-      throw APIError.parseError(error);
-    }
   }
 
   async getDetails(candidateId) {
@@ -59,17 +24,10 @@ class CandidateRepository {
     }
   }
 
-  async addToLeaderboard(jobId, candidateData) {
+  async applyToJob(jobId, candidateData) {
     try {
-      const { leaderboardId } = await this.db.job.findUnique({
-        where: { id: jobId },
-        select: { leaderboardId: true },
-      });
-
-      if (!leaderboardId) throw new APIError(404, "Data not found");
-
       const newCandidate = await this.db.candidate.create({
-        data: { ...candidateData, leaderboardId },
+        data: { ...candidateData, jobId },
       });
 
       return newCandidate;

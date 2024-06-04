@@ -2,15 +2,14 @@ import JobRepository from "../repositories/JobRepository.js";
 import JobService from "../services/JobService.js";
 import prismaClient from "../apps/prismaClient.js";
 import APIError from "../utils/APIError.js";
-import CandidateRepository from "../repositories/CandidateRepository.js";
 const jobRepository = new JobRepository(prismaClient);
-const candidateRepository = new CandidateRepository(prismaClient);
-const jobService = new JobService(jobRepository, candidateRepository);
+const jobService = new JobService(jobRepository);
 
 class JobController {
-  static async getJobs(_, res, next) {
+  static async getJobs(req, res, next) {
     try {
-      const jobs = await jobService.getJobs();
+      const { search } = req.query;
+      const jobs = await jobService.getJobs(search);
 
       res.status(200).json({
         message: "Successfully retrieved data",
