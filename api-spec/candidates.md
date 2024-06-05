@@ -25,7 +25,7 @@ request body:
 }
 ```
 
-Status Code 200:
+Status Code 201:
 
 Response body:
 
@@ -41,19 +41,20 @@ Response Body:
 
 ```json
 {
-  "message": "Max cv file is 2MB"
+  "message": "Max file is 2MB"
 }
 ```
 
-#
+## PATCH
 
-Endpoint: /candidates/:id/summarize/cv
+Endpoint: /candidates/summarize/cv
 
 request body:
 
 ```json
 {
-  "summarized_cv": "<raw_text>"
+  "cv_name": "<cv_name>",
+  "cv_text": "<raw_text>"
 }
 ```
 
@@ -78,5 +79,41 @@ status code: 404
 ```json
 {
   "message": "candidate is not found"
+}
+```
+
+## GET
+
+Endpoint: /candidates/:id
+
+status code: 200
+
+response
+
+```json
+{
+  "message": "Successfully get data",
+  "data": {
+    "candidate": {
+      "id": <candidateId>,
+      "fullname": "<candidate_fullname>",
+      "title": "<candidate_fullname>",
+      "email": "<email>",
+      "phone": "<phone>",
+      "additional_link": "<additional_link>",
+      "passphoto": "<pasphoto_url>",
+      "original_cv_url": "<original_cv_url>",
+      "cv_summary": "<cv_summary>",
+      "match_percentage": <percentage>
+    }
+  }
+}
+```
+
+status code 404:
+
+```json
+{
+  "message": "Data not found"
 }
 ```
