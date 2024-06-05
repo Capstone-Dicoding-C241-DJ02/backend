@@ -3,7 +3,7 @@ import { MulterError } from "multer";
 
 const errorHandler = (err, _, res, next) => {
   if (!err) return next();
-
+  console.log(err)
   if (err instanceof APIError) {
     return res.status(err.status).json({ message: err.message });
   }

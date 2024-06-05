@@ -10,13 +10,16 @@ class CandidateService {
   }
 
   deleteTemporaryFiles(cv, passphoto) {
-    if (fs.existsSync(cv) && fs.existsSync(passphoto)) {
-      fs.unlinkSync(cv);
-      fs.unlinkSync(passphoto);
-      return;
+    try {
+      if (fs.existsSync(cv) && fs.existsSync(passphoto)) {
+        fs.unlinkSync(cv);
+        fs.unlinkSync(passphoto);
+        return;
+      }
+    } catch (error) {
+      console.log(error);
+      throw new APIError(500, error.message);
     }
-
-    throw new APIError();
   }
 
   async applyToJob(jobId, candidateData) {
