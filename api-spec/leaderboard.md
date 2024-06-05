@@ -50,7 +50,7 @@ status code: 404
 
 #
 
-Endpoint: /leaderboards/:leaderboardId/candidate/:candidateId
+Endpoint: /jobs/:jobId/leaderboards/candidate/:candidateId
 
 status code: 200
 
