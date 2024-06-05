@@ -50,23 +50,12 @@ class JobRepository {
 
   async getLeaderboard(jobId) {
     try {
-      const job = await this.db.job.findUnique(jobId);
+      const job = await this.db.job.findUnique({ id: jobId });
 
       if (!job) throw new APIError(404, "Data not found");
 
       const candidates = await this.db.candidate.findMany({
         where: { jobId: jobId },
-        include: {
-          Job: {
-            select: {
-              id: true,
-              title: true,
-              logo: true,
-              business_sector: true,
-              city: true,
-            },
-          },
-        },
         select: {
           id: true,
           fullname: true,
