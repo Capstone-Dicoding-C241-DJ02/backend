@@ -45,6 +45,19 @@ class CandidateService {
     }
   }
 
+  async addCandidateCVSummary(data) {
+    try {
+      const result = await this.repository.addCvCummarize(
+        data.cv_name,
+        data.summarized_cv
+      );
+
+      return result;
+    } catch (error) {
+      throw APIError.parseError(error);
+    }
+  }
+
   async getCandidateDetails(candidateId) {
     try {
       const candidate = await this.repository.getDetails(candidateId);

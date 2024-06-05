@@ -35,6 +35,25 @@ class CandidateRepository {
       throw APIError.parseError(error);
     }
   }
+
+  async addCvCummarize(cv_name, summarized_cv) {
+    try {
+      const candidate = await this.db.candidate.findFirst({
+        where: { cv_name },
+      });
+
+      if (!candidate) throw new APIError(404, "candidate not found");
+
+      const result = await this.db.candidate.update({
+        where: { id: candidate.id },
+        data: { cv_summary: summarized_cv },
+      });
+
+      return result;
+    } catch (error) {
+      throw APIError.parseError(error);
+    }
+  }
 }
 
 export default CandidateRepository;

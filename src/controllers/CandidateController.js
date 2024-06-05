@@ -42,6 +42,18 @@ class CandidateController {
     }
   }
 
+  static async addCandidateCVSummary(req, res, next) {
+    try {
+      await candidateService.addCandidateCVSummary(req.body);
+
+      res.status(200).json({
+        message: "Succesfully added summarized CV",
+      });
+    } catch (error) {
+      next(error);
+    }
+  }
+
   static async getCandidateDetail(req, res, next) {
     try {
       const { id } = req.params;

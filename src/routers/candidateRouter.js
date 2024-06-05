@@ -14,5 +14,6 @@ router.post(
   CandidateController.addCandidate
 );
 router.get("/:id", CandidateController.getCandidateDetail);
+router.patch("/summarize/cv", CandidateController.addCandidateCVSummary);
 
 export default router;
