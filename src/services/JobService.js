@@ -1,13 +1,12 @@
+import JobRepository from "../repositories/JobRepository.js";
 import APIError from "../utils/APIError.js";
 
-class JobService {
-  constructor(repository) {
-    this.repository = repository;
-  }
+const jobRepository = new JobRepository();
 
+class JobService {
   async getJobs(search = "") {
     try {
-      const jobs = await this.repository.getMany(search);
+      const jobs = await jobRepository.getMany(search);
 
       return jobs;
     } catch (error) {
@@ -17,7 +16,7 @@ class JobService {
 
   async getJobById(id) {
     try {
-      const job = await this.repository.getById(id);
+      const job = await jobRepository.getById(id);
 
       return job;
     } catch (error) {
@@ -27,7 +26,7 @@ class JobService {
 
   async getLeaderboard(jobId) {
     try {
-      const data = await this.repository.getLeaderboard(jobId);
+      const data = await jobRepository.getLeaderboard(jobId);
 
       return data;
     } catch (error) {

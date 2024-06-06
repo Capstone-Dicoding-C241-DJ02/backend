@@ -1,18 +1,10 @@
+import prismaClient from "../apps/prismaClient.js";
 import APIError from "../utils/APIError.js";
 
 class JobRepository {
-  /**
-   *
-   * @param {PrismaClient} db
-   */
-  constructor(db) {
-    this.db = db;
-    this.collection = "jobs";
-  }
-
   async getMany(search = "") {
     try {
-      const jobs = await this.db.job.findMany({
+      const jobs = await prismaClient.job.findMany({
         where: {
           OR: [
             { title: { contains: search } },
@@ -38,7 +30,7 @@ class JobRepository {
 
   async getById(id) {
     try {
-      const job = await this.db.job.findUnique({ where: { id } });
+      const job = await prismaClient.job.findUnique({ where: { id } });
 
       if (!job) throw new APIError(404, "Data not found");
 
@@ -50,11 +42,11 @@ class JobRepository {
 
   async getLeaderboard(jobId) {
     try {
-      const job = await this.db.job.findUnique({ id: jobId });
+      const job = await prismaClient.job.findUnique({ where: { id: jobId } });
 
       if (!job) throw new APIError(404, "Data not found");
 
-      const candidates = await this.db.candidate.findMany({
+      const candidates = await prismaClient.candidate.findMany({
         where: { jobId: jobId },
         select: {
           id: true,

@@ -2,6 +2,8 @@ import CandidateService from "../services/CandidateService.js";
 import prismaClient from "../apps/prismaClient.js";
 import CandidateRepository from "../repositories/CandidateRepository.js";
 import APIError from "../utils/APIError.js";
+import validate from "../validations/validate.js";
+import candidateSchema from "../validations/candidateSchema.js";
 
 const candidateRepository = new CandidateRepository(prismaClient);
 const candidateService = new CandidateService(candidateRepository);
@@ -22,10 +24,12 @@ class CandidateController {
 
       if (isNaN(id)) throw new APIError(400, "id should be a number");
 
+      const validatedData = validate(candidateSchema, req.body);
+
       CandidateController.validateMimeType(cv[0], passphoto[0]);
 
       const data = {
-        ...req.body,
+        ...validatedData,
         cv_name: cv[0].filename,
         cv_path: cv[0].path,
         passphoto: passphoto[0].filename,

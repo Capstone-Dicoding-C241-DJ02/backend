@@ -1,18 +1,10 @@
+import prismaClient from "../apps/prismaClient.js";
 import APIError from "../utils/APIError.js";
 
 class CandidateRepository {
-  /**
-   *
-   * @param {PrismaClient} db
-   */
-  constructor(db) {
-    this.db = db;
-    this.collection = "candidates";
-  }
-
   async getDetails(candidateId) {
     try {
-      const candidate = await this.db.candidate.findUnique({
+      const candidate = await prismaClient.candidate.findUnique({
         where: { id: candidateId },
       });
 
@@ -26,25 +18,26 @@ class CandidateRepository {
 
   async applyToJob(jobId, candidateData) {
     try {
-      const newCandidate = await this.db.candidate.create({
+      const newCandidate = await prismaClient.candidate.create({
         data: { ...candidateData, jobId },
       });
 
       return newCandidate;
     } catch (error) {
+      console.log(error);
       throw APIError.parseError(error);
     }
   }
 
   async addCvCummarize(cv_name, summarized_cv) {
     try {
-      const candidate = await this.db.candidate.findFirst({
+      const candidate = await prismaClient.candidate.findFirst({
         where: { cv_name },
       });
 
       if (!candidate) throw new APIError(404, "candidate not found");
 
-      const result = await this.db.candidate.update({
+      const result = await prismaClient.candidate.update({
         where: { id: candidate.id },
         data: { cv_summary: summarized_cv },
       });

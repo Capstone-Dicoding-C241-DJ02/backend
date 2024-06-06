@@ -1,9 +1,7 @@
-import JobRepository from "../repositories/JobRepository.js";
 import JobService from "../services/JobService.js";
-import prismaClient from "../apps/prismaClient.js";
 import APIError from "../utils/APIError.js";
-const jobRepository = new JobRepository(prismaClient);
-const jobService = new JobService(jobRepository);
+
+const jobService = new JobService();
 
 class JobController {
   static async getJobs(req, res, next) {
