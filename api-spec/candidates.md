@@ -54,7 +54,7 @@ request body:
 ```json
 {
   "cv_name": "<cv_name>",
-  "cv_text": "<raw_text>"
+  "summarized_cv": "<raw_text>"
 }
 ```
 

@@ -77,3 +77,45 @@ Response Body:
   "message": "Data not found"
 }
 ```
+
+## POST
+
+Endpoint: /jobs
+
+required request headers:
+
+```json
+{
+  "Authorization": "Bearer ${token}"
+}
+```
+
+request body:
+
+```json
+{
+  "title": "<job_title>", //required
+  "city": "<job_city>", //required
+  "desc": "<job_desc>", //required
+  "logo": "<logo>", //img
+  "business_sector": "<bussiness_sector>" //required
+}
+```
+
+status code 200:
+
+response:
+
+```json
+{
+  "message": "Succesfully created job"
+}
+```
+
+status code 400:
+
+```json
+{
+  "message": "Judul lowongan harus diisi"
+}
+```
