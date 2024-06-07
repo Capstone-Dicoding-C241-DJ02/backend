@@ -1,3 +1,5 @@
+import jwt from "jsonwebtoken";
+
 class APIError extends Error {
   constructor(status = 500, message = "Internal Server error") {
     super(message);
@@ -5,9 +7,10 @@ class APIError extends Error {
   }
 
   static parseError(err) {
-    if (err instanceof APIError) {
-      throw new APIError(err.status, err.message);
-    }
+    if (err instanceof jwt.JsonWebTokenError)
+      throw new APIError(403, err.message);
+
+    if (err instanceof APIError) throw new APIError(err.status, err.message);
 
     throw new APIError();
   }

@@ -8,4 +8,6 @@ export default {
   DB_ID: process.env.DB_ID,
   TMP_PATH: process.env.TMP_PATH,
   SCORING_FUNC_URL: process.env.SCORING_FUNC_URL,
+  AT_SECRET: process.env.AT_SECRET,
+  RT_SECRET: process.env.RT_SECRET,
 };
