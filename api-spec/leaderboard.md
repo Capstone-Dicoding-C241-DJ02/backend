@@ -4,6 +4,14 @@
 
 Endpoint: /jobs/:jobId/leaderboard
 
+required headers:
+
+```json
+{
+  "authorization": "Bearer ${token}"
+}
+```
+
 status code: 200
 
 response:
@@ -45,6 +53,14 @@ status code: 404
 ```json
 {
   "message": "job is not found"
+}
+```
+
+status code: 403
+
+```json
+{
+  "message": "No token provided"
 }
 ```
 
