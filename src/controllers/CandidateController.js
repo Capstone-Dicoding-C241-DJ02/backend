@@ -24,9 +24,9 @@ class CandidateController {
 
       if (isNaN(id)) throw new APIError(400, "id should be a number");
 
+      CandidateController.validateMimeType(cv[0], passphoto[0]);
       const validatedData = validate(candidateSchema, req.body);
 
-      CandidateController.validateMimeType(cv[0], passphoto[0]);
 
       const data = {
         ...validatedData,

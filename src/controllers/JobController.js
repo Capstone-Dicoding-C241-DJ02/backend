@@ -1,5 +1,7 @@
 import JobService from "../services/JobService.js";
 import APIError from "../utils/APIError.js";
+import jobSchema from "../validations/jobSchema.js";
+import validate from "../validations/validate.js";
 
 const jobService = new JobService();
 
@@ -12,6 +14,22 @@ class JobController {
       res.status(200).json({
         message: "Successfully retrieved data",
         data: { jobs },
+      });
+    } catch (error) {
+      next(error);
+    }
+  }
+
+  static async createJob(req, res, next) {
+    try {
+      const validatedData = validate(jobSchema, req.body);
+      const { logo } = req.files.logo;
+      const data = { ...validatedData, logo: logo.filename };
+
+      await jobService.createJob(data);
+
+      res.status(201).json({
+        message: "Successfully created a job",
       });
     } catch (error) {
       next(error);

@@ -25,6 +25,12 @@ model Job {
   @@map("jobs")
 }
 
+model Recruiter {
+  id       Int    @id @default(autoincrement())
+  email    String @unique @db.VarChar(250)
+  password String
+}
+
 model Candidate {
   id               Int     @id @default(autoincrement())
   fullname         String

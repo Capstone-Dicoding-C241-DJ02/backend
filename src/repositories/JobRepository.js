@@ -62,6 +62,18 @@ class JobRepository {
       throw APIError.parseError(error);
     }
   }
+
+  async createJob(data) {
+    try {
+      const job = await prismaClient.job.create({
+        data,
+      });
+
+      return job;
+    } catch (err) {
+      throw APIError.parseError(err);
+    }
+  }
 }
 
 export default JobRepository;

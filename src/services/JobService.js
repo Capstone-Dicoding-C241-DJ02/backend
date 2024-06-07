@@ -14,6 +14,16 @@ class JobService {
     }
   }
 
+  async createJob(data) {
+    try {
+      const result = await jobRepository.createJob(data);
+
+      return result;
+    } catch (error) {
+      throw APIError.parseError(error);
+    }
+  }
+
   async getJobById(id) {
     try {
       const job = await jobRepository.getById(id);
