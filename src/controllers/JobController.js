@@ -8,12 +8,15 @@ const jobService = new JobService();
 class JobController {
   static async getJobs(req, res, next) {
     try {
-      const { search } = req.query;
-      const jobs = await jobService.getJobs(search);
+      const { search, page } = req.query;
+
+      const pageCount = page || !isNaN(page) ? Number(page) : 1;
+
+      const { jobs, totalData } = await jobService.getJobs(pageCount, search);
 
       res.status(200).json({
         message: "Successfully retrieved data",
-        data: { jobs },
+        data: { jobs, totalData },
       });
     } catch (error) {
       next(error);
@@ -23,13 +26,17 @@ class JobController {
   static async createJob(req, res, next) {
     try {
       const validatedData = validate(jobSchema, req.body);
-      const { logo } = req.files.logo;
-      const data = { ...validatedData, logo: logo.filename };
+
+      const { path } = req.file;
+      const data = {
+        ...validatedData,
+        logo_path: path,
+      };
 
       await jobService.createJob(data);
 
       res.status(201).json({
-        message: "Successfully created a job",
+        message: "Succesfully created job",
       });
     } catch (error) {
       next(error);

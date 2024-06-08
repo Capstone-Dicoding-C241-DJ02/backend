@@ -2,7 +2,11 @@ import prismaClient from "../apps/prismaClient.js";
 import APIError from "../utils/APIError.js";
 
 class JobRepository {
-  async getMany(search = "") {
+  constructor() {
+    this.take = 10;
+  }
+
+  async getMany({ page = 1, search = "" }) {
     try {
       const jobs = await prismaClient.job.findMany({
         where: {
@@ -19,10 +23,21 @@ class JobRepository {
           business_sector: true,
           city: true,
         },
-        take: 10,
+        skip: this.take * (page - 1),
+        take: this.take,
       });
 
-      return jobs;
+      const totalData = await prismaClient.job.count({
+        where: {
+          OR: [
+            { title: { contains: search } },
+            { city: { contains: search } },
+            { business_sector: { contains: search } },
+          ],
+        },
+      });
+
+      return { totalData, jobs };
     } catch (error) {
       throw APIError.parseError(error);
     }

@@ -4,6 +4,7 @@ config();
 export default {
   CV_BUCKET_NAME: process.env.CV_BUCKET_NAME,
   PASSPHOTO_BUCKET_NAME: process.env.PASSPHOTO_BUCKET_NAME,
+  LOGO_BUCKET_NAME: process.env.LOGO_BUCKET_NAME,
   SERVICE_ACCOUNT_KEY_PATH: process.env.SERVICE_ACCOUNT_KEY_PATH,
   DB_ID: process.env.DB_ID,
   TMP_PATH: process.env.TMP_PATH,

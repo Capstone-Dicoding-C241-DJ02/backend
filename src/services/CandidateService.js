@@ -1,10 +1,10 @@
 import axios from "axios";
 import APIError from "../utils/APIError.js";
 import StorageUtil from "../utils/StorageUtil.js";
-import fs from "fs";
 import CandidateRepository from "../repositories/CandidateRepository.js";
 import JobRepository from "../repositories/JobRepository.js";
 import configs from "../configs/index.js";
+import deleteTemporaryFile from "../utils/deleteTemporaryFile.js";
 import { convert } from "html-to-text";
 
 const candidateRepository = new CandidateRepository();
@@ -18,13 +18,9 @@ class CandidateService {
 
   deleteTemporaryFiles(cv, passphoto) {
     try {
-      if (fs.existsSync(cv) && fs.existsSync(passphoto)) {
-        fs.unlinkSync(cv);
-        fs.unlinkSync(passphoto);
-        return;
-      }
+      deleteTemporaryFile(cv);
+      deleteTemporaryFile(passphoto);
     } catch (error) {
-      console.log(error);
       throw new APIError(500, error.message);
     }
   }

@@ -4,6 +4,7 @@ import CandidateRepository from "../repositories/CandidateRepository.js";
 import APIError from "../utils/APIError.js";
 import validate from "../validations/validate.js";
 import candidateSchema from "../validations/candidateSchema.js";
+import summarySchema from "../validations/summarySchema.js";
 
 const candidateRepository = new CandidateRepository(prismaClient);
 const candidateService = new CandidateService(candidateRepository);
@@ -27,7 +28,6 @@ class CandidateController {
       CandidateController.validateMimeType(cv[0], passphoto[0]);
       const validatedData = validate(candidateSchema, req.body);
 
-
       const data = {
         ...validatedData,
         cv_name: cv[0].filename,
@@ -48,7 +48,8 @@ class CandidateController {
 
   static async addCandidateCVSummary(req, res, next) {
     try {
-      await candidateService.addCandidateCVSummary(req.body);
+      const validatedData = validate(summarySchema, req.body);
+      await candidateService.addCandidateCVSummary(validatedData);
 
       res.status(200).json({
         message: "Succesfully added summarized CV",
@@ -67,7 +68,7 @@ class CandidateController {
       const candidate = await candidateService.getCandidateDetails(Number(id));
 
       res.status(200).json({
-        messsage: "Successfully get data",
+        message: "Successfully get data",
         data: { candidate },
       });
     } catch (error) {

@@ -35,7 +35,7 @@ class CandidateRepository {
         where: { cv_name },
       });
 
-      if (!candidate) throw new APIError(404, "candidate not found");
+      if (!candidate) throw new APIError(404, "candidate is not found");
 
       const result = await prismaClient.candidate.update({
         where: { id: candidate.id },

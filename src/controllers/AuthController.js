@@ -22,8 +22,7 @@ class AuthController {
 
   static async getAccessToken(req, res, next) {
     try {
-      if (!req.cookies.rft)
-        throw new APIError(403, "No refresh token provided");
+      if (!req.cookies.rft) throw new APIError(403, "No token provided");
 
       const accessToken = await authService.getAccessToken(req.cookies.rft);
 

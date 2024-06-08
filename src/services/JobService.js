@@ -1,14 +1,17 @@
 import JobRepository from "../repositories/JobRepository.js";
 import APIError from "../utils/APIError.js";
+import StorageUtil from "../utils/StorageUtil.js";
+import configs from "../configs/index.js";
+import deleteTemporaryFile from "../utils/deleteTemporaryFile.js";
 
 const jobRepository = new JobRepository();
 
 class JobService {
-  async getJobs(search = "") {
+  async getJobs(page, search) {
     try {
-      const jobs = await jobRepository.getMany(search);
+      const result = await jobRepository.getMany({ page, search });
 
-      return jobs;
+      return result;
     } catch (error) {
       throw APIError.parseError(error);
     }
@@ -16,7 +19,18 @@ class JobService {
 
   async createJob(data) {
     try {
-      const result = await jobRepository.createJob(data);
+      const { logo_path, ...rest } = data;
+      const file = await StorageUtil.uploadToBucket(
+        configs.LOGO_BUCKET_NAME,
+        logo_path
+      );
+      deleteTemporaryFile(logo_path);
+      const publicUrl = file.publicUrl();
+
+      const result = await jobRepository.createJob({
+        ...rest,
+        logo: publicUrl,
+      });
 
       return result;
     } catch (error) {

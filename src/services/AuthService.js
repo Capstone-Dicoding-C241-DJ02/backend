@@ -37,8 +37,8 @@ class AuthService {
     try {
       const recruiter = await recruiterRepository.getCredentials(data.email);
 
-      if (!Cryptographer.compare(data.password, recruiter.password)) {
-        throw new APIError(400, "Email or Password is not valid");
+      if (!(await Cryptographer.compare(data.password, recruiter.password))) {
+        throw new APIError(400, "Email or password is not correct");
       }
 
       const { accessToken, refreshToken } = this.getTokens(recruiter.email);
