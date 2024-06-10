@@ -4,7 +4,7 @@ import CandidateController from "../controllers/CandidateController.js";
 import authHandler from "../middlewares/authHandler.js";
 
 const router = Router();
-const fileFields = [{ name: "passphoto" }, { name: "cv" }];
+const fileFields = [{ name: "cv" }, { name: "passphoto" }];
 
 router.post(
   "/apply/jobs/:id",

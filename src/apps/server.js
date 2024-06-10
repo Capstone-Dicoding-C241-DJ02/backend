@@ -9,10 +9,11 @@ import authRouter from "../routers/authRouter.js";
 
 const server = express();
 
-server.use(cors({ credentials: true }));
+server.use(cors({ credentials: true, origin: "http://localhost:5173" }));
 server.use(helmet());
 server.use(cookieParser());
 server.use(express.json());
+server.use(express.urlencoded({ extended: true }));
 
 server.get("/", (_, res) => res.send("Hello From Backend"));
 server.use("/jobs", jobRouter);

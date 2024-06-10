@@ -7,8 +7,12 @@ class AuthController {
   static async login(req, res, next) {
     try {
       const { accessToken, refreshToken } = await authService.login(req.body);
-
-      res.cookie("rft", refreshToken);
+      const tokenMaxAge = 30 * 24 * (60 * 60000);
+      res.cookie("rft", refreshToken, {
+        httpOnly: true,
+        maxAge: tokenMaxAge,
+        domain: "34.128.73.230",
+      });
       res.status(200).json({
         message: "Successfully logged in",
         data: {

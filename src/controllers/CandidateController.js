@@ -25,6 +25,9 @@ class CandidateController {
 
       if (isNaN(id)) throw new APIError(400, "id should be a number");
 
+      if (!cv[0] && !passphoto[0])
+        throw new APIError(400, "CV and passphoto should be uploaded");
+
       CandidateController.validateMimeType(cv[0], passphoto[0]);
       const validatedData = validate(candidateSchema, req.body);
 

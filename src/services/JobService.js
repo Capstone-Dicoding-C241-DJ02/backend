@@ -51,6 +51,16 @@ class JobService {
   async getLeaderboard(jobId) {
     try {
       const data = await jobRepository.getLeaderboard(jobId);
+      // const candidates = ca
+      data.candidates = await Promise.all(
+        data.candidates.map(async (candidate) => ({
+          ...candidate,
+          passphoto: await StorageUtil.getSignedUrl(
+            configs.PASSPHOTO_BUCKET_NAME,
+            candidate.passphoto
+          ),
+        }))
+      );
 
       return data;
     } catch (error) {

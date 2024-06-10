@@ -7,6 +7,7 @@ class APIError extends Error {
   }
 
   static parseError(err) {
+    console.log(err);
     if (err instanceof jwt.JsonWebTokenError)
       throw new APIError(403, err.message);
 
