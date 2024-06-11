@@ -1,9 +1,10 @@
 import multer from "multer";
 import APIError from "../utils/APIError.js";
+import configs from "../configs/index.js";
 
 const storage = multer.diskStorage({
   destination: (_, file, cb) => {
-    cb(null, "/home/sugito/project/backend/tmp");
+    cb(null, configs.TMP_PATH);
   },
   filename: (_, file, cb) => {
     const suffix = +new Date();
