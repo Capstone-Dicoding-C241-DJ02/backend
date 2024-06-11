@@ -10,11 +10,7 @@ class JobRepository {
     try {
       const jobs = await prismaClient.job.findMany({
         where: {
-          OR: [
-            { title: { contains: search } },
-            { city: { contains: search } },
-            { business_sector: { contains: search } },
-          ],
+           title: { contains: search },
         },
         select: {
           id: true,
