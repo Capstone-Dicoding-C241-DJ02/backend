@@ -11,7 +11,6 @@ class AuthController {
       res.cookie("rft", refreshToken, {
         httpOnly: true,
         maxAge: tokenMaxAge,
-        domain: "34.128.73.230",
       });
       res.status(200).json({
         message: "Successfully logged in",
@@ -37,6 +36,11 @@ class AuthController {
     } catch (error) {
       next(error);
     }
+  }
+
+  static logout(req, res) {
+    res.cookie("rft", "", { expires: new Date("01-01-1999") });
+    res.status(200).json({ message: "Successfully logout" });
   }
 }
 
