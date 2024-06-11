@@ -29,11 +29,7 @@ class JobRepository {
 
       const totalData = await prismaClient.job.count({
         where: {
-          OR: [
-            { title: { contains: search } },
-            { city: { contains: search } },
-            { business_sector: { contains: search } },
-          ],
+          title: { contains: search },
         },
       });
 

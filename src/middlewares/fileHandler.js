@@ -1,6 +1,6 @@
 import multer from "multer";
 import APIError from "../utils/APIError.js";
-import configs from "../configs/index.js"
+import configs from "../configs/index.js";
 
 const storage = multer.diskStorage({
   destination: (_, file, cb) => {
