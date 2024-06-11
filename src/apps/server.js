@@ -9,7 +9,7 @@ import authRouter from "../routers/authRouter.js";
 
 const server = express();
 
-server.use(cors({ credentials: true, origin: "http://localhost:5173" }));
+server.use(cors({ credentials: true, origin: ["http://34.128.73.230:5173", "http://localhost:5173"] }));
 server.use(helmet());
 server.use(cookieParser());
 server.use(express.json());
