@@ -24,7 +24,6 @@ class JobService {
         configs.LOGO_BUCKET_NAME,
         logo_path
       );
-      deleteTemporaryFile(logo_path);
       const publicUrl = file.publicUrl();
 
       const result = await jobRepository.createJob({
@@ -35,6 +34,8 @@ class JobService {
       return result;
     } catch (error) {
       throw APIError.parseError(error);
+    } finally {
+      deleteTemporaryFile(data.logo_path);
     }
   }
 
