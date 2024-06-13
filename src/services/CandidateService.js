@@ -47,10 +47,10 @@ class CandidateService {
         ),
       ]);
 
+      this.deleteTemporaryFiles(cv_path, passphoto_path);
       } catch (error) {
-        throw APIError(500, error.message);
-      } finally {
         this.deleteTemporaryFiles(cv_path, passphoto_path);
+        throw APIError(500, error.message); 
       }
   }
 

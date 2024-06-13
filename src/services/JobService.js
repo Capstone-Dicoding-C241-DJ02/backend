@@ -31,11 +31,11 @@ class JobService {
         logo: publicUrl,
       });
 
-      return result;
-    } catch (error) {
-      throw APIError.parseError(error);
-    } finally {
       deleteTemporaryFile(data.logo_path);
+      return result;
+      } catch (error) {
+        deleteTemporaryFile(data.logo_path);
+        throw APIError.parseError(error);
     }
   }
 
